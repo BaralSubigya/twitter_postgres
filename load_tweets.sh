@@ -9,5 +9,8 @@ done
 
 echo 'load denormalized'
 for file in $files; do
-    unzip -p "$file" | sed 's/\\u0000//g' | psql "postgresql://postgres:pass@localhost:15432/postgres" -c "\COPY tweets_jsonb (data) FROM STDIN;"
+    unzip -p "$file" \
+        | sed 's/\\u0000//g' \
+        | psql "postgresql://postgres:pass@localhost:15432/postgres" \
+            -c "\COPY tweets_jsonb (data) FROM STDIN WITH (FORMAT csv, DELIMITER E'\x02', QUOTE E'\x01')"
 done
