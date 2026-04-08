@@ -1,8 +1,6 @@
 #!/bin/sh
 
-files="
-test-data.zip
-"
+files="test-data.zip"
 
 echo 'load normalized'
 for file in $files; do
