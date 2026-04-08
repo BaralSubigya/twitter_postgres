@@ -6,11 +6,11 @@ mkdir -p results
 
 for problem in sql/*; do
     printf "$problem "
-    problem_id=$(basename ${problem%.sql})
+    problem_id=$(basename "${problem%.sql}")
     result="results/$problem_id.out"
     expected="expected/$problem_id.out"
-    psql < $problem > $result
-    DIFF=$(diff -B $expected $result)
+    psql postgresql://postgres:pass@localhost:1099/postgres < "$problem" > "$result"
+    DIFF=$(diff -B "$expected" "$result")
     if [ -z "$DIFF" ]; then
         echo pass
     else
@@ -22,4 +22,3 @@ done
 if [ "$failed" = "true" ]; then
     exit 2
 fi
-
